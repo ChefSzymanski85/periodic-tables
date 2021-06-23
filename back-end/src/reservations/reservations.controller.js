@@ -1,3 +1,6 @@
+const service = require("./reservations.service");
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+
 // --------------- Middleware handlers-------------------
 function hasData(req, res, next) {
   if (req.body.data) {
@@ -15,7 +18,7 @@ function hasPeople(req, res, next) {
 }
 
 // ------------------ CRUD handlers ---------------------
-let nextId = 1;
+
 const reservations = [];
 
 /**
@@ -28,14 +31,7 @@ async function list(req, res) {
 }
 
 async function create(req, res) {
-  const newReservation = req.body.data;
-
-  const now = new Date().toISOString();
-  newReservation.reservation_id = nextId++;
-  newReservation.created_at = now;
-  newReservation.updated_at = now;
-
-  reservations.push(newReservation);
+  const newReservation = await service.create(req.body.data);
 
   res.status(201).json({
     data: newReservation,
@@ -44,5 +40,5 @@ async function create(req, res) {
 
 module.exports = {
   list,
-  create: [hasData, hasPeople, create],
+  create: [hasData, hasPeople, asyncErrorBoundary(create)],
 };
