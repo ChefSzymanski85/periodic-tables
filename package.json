@@ -11,7 +11,7 @@
     "build": "npm -prefix front-end run build",
     "preinstall": "cd ./back-end && npm install",
     "install": "cd ./front-end && npm install",
-    "start": "concurrently 'npm run start:backend' 'npm run start:frontend'",
+    "start": "npx concurrently 'npm run start:backend' 'npm run start:frontend'",
     "start:all": "npm run start:backend && npm run start:frontend",
     "kill": "npx kill-port 5000",
     "start:backend": "npm --prefix ./back-end start",
@@ -50,6 +50,9 @@
   "keywords": [],
   "author": "Thinkful, Inc.",
   "license": "UNLICENSED",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "concurrently": "^6.2.0",
     "knex": "^0.95.6"
