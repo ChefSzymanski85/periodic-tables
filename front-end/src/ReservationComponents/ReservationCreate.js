@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { createReservation } from "./api";
+import { createReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 
 function ReservationCreate() {
