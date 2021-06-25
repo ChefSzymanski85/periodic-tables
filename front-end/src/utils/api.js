@@ -67,8 +67,3 @@ export async function listReservations(params, signal) {
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
-
-//temporary
-
-export async function createReservation(reservation, signal) {}
-// end temp

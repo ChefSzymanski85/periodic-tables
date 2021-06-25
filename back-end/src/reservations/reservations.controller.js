@@ -24,10 +24,13 @@ const reservations = [];
 /**
  * List handler for reservation resources
  */
+
+// added req.query argument
 async function list(req, res) {
-  const data = await service.list();
+  const { date } = req.query;
+  const reservationsByDate = await service.list(date);
   res.json({
-    data,
+    data: reservationsByDate,
   });
 }
 

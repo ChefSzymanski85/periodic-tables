@@ -6,7 +6,6 @@
 
 const router = require("express").Router(); // mergeParams?
 const controller = require("./reservations.controller");
-// methodNotAllowed?
 const methodNotAllowed = require("../errors/methodNotAllowed");
 
 router
