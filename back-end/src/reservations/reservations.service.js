@@ -9,7 +9,10 @@ async function list(reservation_date) {
 }
 
 function create(newReservation) {
-  return knex("reservations").insert(newReservation).returning("*");
+  return knex("reservations")
+    .insert(newReservation)
+    .returning("*")
+    .then((reservations) => reservations[0]);
 }
 
 module.exports = {
