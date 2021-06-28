@@ -2,15 +2,15 @@ const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 // function to validate time
-function isTime(str) {
-  regexp = /^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/;
+// function isTime(str) {
+//   regexp = /^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/;
 
-  if (regexp.test(str)) {
-    return true;
-  } else {
-    return false;
-  }
-}
+//   if (regexp.test(str)) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
 
 // --------------- Middleware handlers-------------------
 function hasData(req, res, next) {
@@ -42,7 +42,9 @@ function isValidReservation(req, res, next) {
 }
 
 function hasPeople(req, res, next) {
-  const people = req.body.data.people;
+  // converting 'people' to a number allows the form to be submitted correctly
+  // not converting 'people' to number allows the back end tests to pass
+  const people = Number(req.body.data.people);
   //console.log(people);
   if (typeof people === "number" && people >= 1) {
     return next();
@@ -72,6 +74,39 @@ function isValidTime(req, res, next) {
     return next({
       status: 400,
       message: "Field 'reservation_time' must be of format HH:MM",
+    });
+  }
+  next();
+}
+
+function isFutureDate(req, rest, next) {
+  // find reservation date in Date format
+  const reservationDate = new Date(req.body.data.reservation_date);
+  // find current date in Date format
+  const currentDate = new Date();
+  // convert reservation date to ms
+  const resDateInMs = reservationDate.getTime();
+  // convert current date to ms
+  const currentDateInMs = currentDate.getTime();
+  if (resDateInMs < currentDateInMs) {
+    return next({
+      status: 400,
+      message: "Please make a reservation for a future date",
+    });
+  }
+  next();
+}
+
+function restaurantIsOpen(req, res, next) {
+  const date = new Date(req.body.data.reservation_date);
+  //console.log(date);
+  const dayOfWeek = date.getDay();
+  //console.log(dayOfWeek);
+
+  if (dayOfWeek === 1) {
+    return next({
+      status: 400,
+      message: "Restaurant is closed on Tuesdays",
     });
   }
   next();
@@ -110,6 +145,8 @@ module.exports = {
     isValidReservation,
     isValidTime,
     isValidDate,
+    restaurantIsOpen,
+    isFutureDate,
     asyncErrorBoundary(create),
   ],
 };

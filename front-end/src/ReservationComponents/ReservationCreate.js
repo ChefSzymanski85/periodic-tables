@@ -36,6 +36,8 @@ function ReservationCreate() {
     }));
   }
 
+  //function isValidDate() {}
+
   return (
     <div>
       <h1 className="ml-5 mt-1 mb-3">Make A Reservation</h1>
