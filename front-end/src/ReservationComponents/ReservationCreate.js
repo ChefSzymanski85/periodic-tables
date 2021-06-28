@@ -101,8 +101,6 @@ function ReservationCreate() {
               id="reservation_date"
               value={reservation.reservation_date}
               onChange={changeHandler}
-              min="2021-06-23"
-              max="2021-12-21"
               required={true}
             />
           </div>
@@ -117,7 +115,6 @@ function ReservationCreate() {
               type="tel"
               className="form-control"
               id="mobile_number"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               placeholder="555-555-5555"
               value={reservation.mobile_number}
               onChange={changeHandler}
@@ -133,8 +130,8 @@ function ReservationCreate() {
               type="time"
               className="form-control"
               id="reservation_time"
-              min="10:30"
-              max="21:30"
+              // min="10:30"
+              // max="21:30"
               value={reservation.reservation_time}
               onChange={changeHandler}
               required={true}
