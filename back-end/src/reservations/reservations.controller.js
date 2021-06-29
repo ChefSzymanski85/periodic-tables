@@ -80,14 +80,16 @@ function isValidTime(req, res, next) {
 }
 
 function isFutureDate(req, rest, next) {
-  // find reservation date in Date format
-  const reservationDate = new Date(req.body.data.reservation_date);
+  // combine reservation date and time
+  const dateAndTime = `${req.body.data.reservation_date}T${req.body.data.reservation_time}:00.000Z`;
+  // convert reservation to Date format
+  const reservationDate = new Date(dateAndTime);
   // find current date in Date format
   const currentDate = new Date();
   // convert reservation date to ms
   const resDateInMs = reservationDate.getTime();
-  // convert current date to ms
-  const currentDateInMs = currentDate.getTime();
+  // convert current date to ms in eastern time
+  const currentDateInMs = currentDate.getTime() - 14400000;
   if (resDateInMs < currentDateInMs) {
     return next({
       status: 400,
@@ -97,7 +99,38 @@ function isFutureDate(req, rest, next) {
   next();
 }
 
-function restaurantIsOpen(req, res, next) {
+function openHours(req, res, next) {
+  // combine date and time
+  const dateAndTime = `${req.body.data.reservation_date}T${req.body.data.reservation_time}:00.000Z`;
+  const open = `${req.body.data.reservation_date}T10:30:00.000Z`;
+  const closed = `${req.body.data.reservation_date}T21:30:00.000Z`;
+
+  // convert to Date format
+  const reservationDate = new Date(dateAndTime);
+  const openFormatted = new Date(open);
+  const closedFormatted = new Date(closed);
+
+  // convert dates to ms
+  const resDateInMs = reservationDate.getTime();
+  const openInMs = openFormatted.getTime();
+  const closedInMs = closedFormatted.getTime();
+
+  if (resDateInMs < openInMs) {
+    return next({
+      status: 400,
+      message: "Restaurant does not open until 10:30AM",
+    });
+  }
+  if (resDateInMs > closedInMs) {
+    return next({
+      status: 400,
+      message: "No reservations after 9:30PM",
+    });
+  }
+  next();
+}
+
+function closedOnTuesdays(req, res, next) {
   const date = new Date(req.body.data.reservation_date);
   //console.log(date);
   const dayOfWeek = date.getDay();
@@ -114,7 +147,7 @@ function restaurantIsOpen(req, res, next) {
 
 // ------------------ CRUD handlers ---------------------
 
-const reservations = [];
+//const reservations = [];
 
 /**
  * List handler for reservation resources
@@ -145,7 +178,8 @@ module.exports = {
     isValidReservation,
     isValidTime,
     isValidDate,
-    restaurantIsOpen,
+    openHours,
+    closedOnTuesdays,
     isFutureDate,
     asyncErrorBoundary(create),
   ],
