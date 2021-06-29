@@ -64,6 +64,7 @@ function TableCreate() {
               type="number"
               className="form-control"
               id="capacity"
+              min="1"
               value={table.capacity}
               onChange={changeHandler}
               required={true}
