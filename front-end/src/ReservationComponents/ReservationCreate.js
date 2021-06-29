@@ -40,7 +40,7 @@ function ReservationCreate() {
 
   return (
     <div>
-      <h1 className="ml-5 mt-1 mb-3">Make A Reservation</h1>
+      <h1 className="ml-5 mt-1 mb-5">Make A Reservation</h1>
       <ErrorAlert error={error} />
       <form onSubmit={submitHandler} className="ml-5">
         <div className="row">
