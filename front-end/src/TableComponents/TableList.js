@@ -5,7 +5,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 function TableList() {
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState([]);
-  const [status, setStatus] = useState("Free");
+  //const [status, setStatus] = useState("Free");
 
   useEffect(loadTables);
 
@@ -21,7 +21,11 @@ function TableList() {
       <th scope="row">{table.table_id}</th>
       <td>{table.table_name}</td>
       <td>{table.capacity}</td>
-      <td>Free</td>
+      {table.occupied ? (
+        <td data-table-id-status={table.table_id}>Occupied</td>
+      ) : (
+        <td data-table-id-status={table.table_id}>Free</td>
+      )}
       <td>{table.reservation_id}</td>
     </tr>
   ));
