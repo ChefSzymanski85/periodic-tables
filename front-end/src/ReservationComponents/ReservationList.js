@@ -6,16 +6,8 @@ import useQuery from "../utils/useQuery";
 import { previous } from "../utils/date-time";
 import { next } from "../utils/date-time";
 import { today } from "../utils/date-time";
-//import ReservationList from "../ReservationComponents/ReservationList";
-import TableList from "../TableComponents/TableList";
 
-/**
- * Defines the dashboard page.
- * @param date
- *  the date for which the user wants to view reservations.
- * @returns {JSX.Element}
- */
-function Dashboard({ date }) {
+function ReservationList({ date }) {
   const history = useHistory();
 
   const query = useQuery().get("date");
@@ -58,28 +50,26 @@ function Dashboard({ date }) {
       <td>{reservation.reservation_date}</td>
       <td>{reservation.reservation_time}</td>
       <td>
-        <a
+        <button
           type="button"
           className="btn btn-success"
           href={`/reservations/${reservation.reservation_id}/seat`}
         >
           Seat
-        </a>
+        </button>
       </td>
     </tr>
   ));
 
-  // JSX
   return (
-    <main>
-      <h1>Dashboard</h1>
+    <div>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
+        <h4 className="mb-0">Reservations for {date}</h4>
       </div>
       <table className="table">
         <thead>
           <tr>
-            <th scope="col">ID#</th>
+            <th scope="col">Reservation ID</th>
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
             <th scope="col">Phone number</th>
@@ -114,10 +104,8 @@ function Dashboard({ date }) {
         </button>
       </div>
       <ErrorAlert error={reservationsError} />
-      {/* <ReservationList /> */}
-      <TableList />
-    </main>
+    </div>
   );
 }
 
-export default Dashboard;
+export default ReservationList;

@@ -64,7 +64,7 @@ function ReservationCreate() {
           <div className="col-3 mb-3">
             <input
               name="people"
-              type="text"
+              type="number"
               className="form-control"
               id="people"
               min="1"

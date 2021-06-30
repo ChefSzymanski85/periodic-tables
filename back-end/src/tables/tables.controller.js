@@ -39,7 +39,7 @@ async function list(req, res) {
 async function create(req, res) {
   const newTable = await service.create(req.body.data);
 
-  res.json(201).json({
+  res.status(201).json({
     data: newTable,
   });
 }

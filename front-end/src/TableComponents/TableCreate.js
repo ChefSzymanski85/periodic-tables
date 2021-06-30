@@ -51,6 +51,7 @@ function TableCreate() {
               value={table.table_name}
               onChange={changeHandler}
               required={true}
+              // must be at least 2 characters
             />
           </div>
         </div>

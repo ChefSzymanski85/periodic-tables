@@ -50,9 +50,6 @@
   "keywords": [],
   "author": "Thinkful, Inc.",
   "license": "UNLICENSED",
-  "engines": {
-    "node": "14.x"
-  },
   "dependencies": {
     "concurrently": "^6.2.0",
     "knex": "^0.95.6"

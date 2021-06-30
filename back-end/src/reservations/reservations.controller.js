@@ -13,6 +13,11 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 // }
 
 // --------------- Middleware handlers-------------------
+// create parent function called validateDate
+// create a list of objects
+// as it hits an error, add or push to the list
+// if errors.count === 0, then next(), else push error
+
 function hasData(req, res, next) {
   if (req.body.data) {
     return next();
@@ -44,9 +49,9 @@ function isValidReservation(req, res, next) {
 function hasPeople(req, res, next) {
   // converting 'people' to a number allows the form to be submitted correctly
   // not converting 'people' to number allows the back end tests to pass
-  const people = Number(req.body.data.people);
+  const people = req.body.data.people;
   //console.log(people);
-  if (typeof people === "number" && people >= 1) {
+  if (parseInt(people) >= 1) {
     return next();
   }
   next({
