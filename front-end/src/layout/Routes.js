@@ -5,6 +5,7 @@ import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import ReservationCreate from "../ReservationComponents/ReservationCreate";
 import TableCreate from "../TableComponents/TableCreate";
+import Seat from "../ReservationComponents/Seat";
 import { today } from "../utils/date-time";
 
 /**
@@ -17,6 +18,9 @@ import { today } from "../utils/date-time";
 function Routes() {
   return (
     <Switch>
+      <Route path="/reservations/:reservation_id/seat">
+        <Seat />
+      </Route>
       <Route path="/reservations/new">
         <ReservationCreate />
       </Route>

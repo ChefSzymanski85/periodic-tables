@@ -1,4 +1,5 @@
 const service = require("./tables.service");
+const reservationService = require("../reservations/reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 // --------------- Middleware handlers-------------------
@@ -24,14 +25,20 @@ function isValidReservation(req, res, next) {
   next();
 }
 
+async function tableExists(req, res, next) {
+  const { table_id } = req.params;
+  const table = await service.read(table_id);
+  if (table) {
+    //res.locals.table = table;
+    res.locals.table_id = table_id;
+    return next();
+  }
+  next({ status: 404, message: "Table not found." });
+}
+
 // ------------------ CRUD handlers ---------------------
 
 async function list(req, res) {
-  // const { date } = req.query;
-  // const reservationsByDate = await service.list(date);
-  // res.json({
-  //   data: reservationsByDate,
-  // });
   const data = await service.list();
   res.json({ data });
 }
@@ -44,7 +51,15 @@ async function create(req, res) {
   });
 }
 
+async function update(req, res) {
+  const { reservation_id } = req.body.data;
+  const table_id = res.locals.table_id;
+  const response = await service.update(table_id, reservation_id);
+  res.status(200).json({ data: response });
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [hasData, isValidReservation, asyncErrorBoundary(create)],
+  update: [tableExists, asyncErrorBoundary(update)],
 };
