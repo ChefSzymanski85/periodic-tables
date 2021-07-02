@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
-import { listTables, updateTable, seatReservation } from "../utils/api";
+import { listTables, seatReservation } from "../utils/api";
 
 function Seat() {
   const history = useHistory();

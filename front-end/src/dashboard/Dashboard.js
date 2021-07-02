@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { Link, useHistory } from "react-router-dom";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import useQuery from "../utils/useQuery";
@@ -23,6 +23,7 @@ function Dashboard({ date }) {
 
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  //console.log(reservations);
 
   useEffect(loadDashboard, [date]);
 
@@ -48,26 +49,37 @@ function Dashboard({ date }) {
   }
 
   // fill in table with data from API
-  const tableRows = reservations.map((reservation) => (
-    <tr key={reservation.reservation_id}>
-      <th scope="row">{reservation.reservation_id}</th>
-      <td>{reservation.first_name}</td>
-      <td>{reservation.last_name}</td>
-      <td>{reservation.mobile_number}</td>
-      <td>{reservation.people}</td>
-      <td>{reservation.reservation_date}</td>
-      <td>{reservation.reservation_time}</td>
-      <td>
-        <a
-          type="button"
-          className="btn btn-success"
-          href={`/reservations/${reservation.reservation_id}/seat`}
-        >
-          Seat
-        </a>
-      </td>
-    </tr>
-  ));
+
+  const tableRows = reservations.map(
+    ({
+      reservation_id,
+      first_name,
+      last_name,
+      mobile_number,
+      people,
+      reservation_date,
+      reservation_time,
+    }) => (
+      <tr key={reservation_id}>
+        <th scope="row">{reservation_id}</th>
+        <td>{first_name}</td>
+        <td>{last_name}</td>
+        <td>{mobile_number}</td>
+        <td>{people}</td>
+        <td>{reservation_date}</td>
+        <td>{reservation_time}</td>
+        <td>
+          <Link
+            to={`/reservations/${reservation_id}/seat`}
+            type="button"
+            className="btn btn-success"
+          >
+            Seat
+          </Link>
+        </td>
+      </tr>
+    )
+  );
 
   // JSX
   return (

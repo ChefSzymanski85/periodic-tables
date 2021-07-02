@@ -7,7 +7,7 @@ function TableList() {
   const [tablesError, setTablesError] = useState([]);
   //const [status, setStatus] = useState("Free");
 
-  useEffect(loadTables);
+  useEffect(loadTables, []);
 
   function loadTables() {
     const abortController = new AbortController();

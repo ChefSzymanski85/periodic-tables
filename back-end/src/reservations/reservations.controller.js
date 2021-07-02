@@ -46,6 +46,16 @@ function isValidReservation(req, res, next) {
   next();
 }
 
+async function reservationExists(req, res, next) {
+  const { reservation_id } = req.params;
+  const reservation = await service.read(reservation_id);
+  if (reservation) {
+    res.locals.reservation = reservation;
+    return next();
+  }
+  next({ status: 404, message: "Reservation not found." });
+}
+
 function hasPeople(req, res, next) {
   // converting 'people' to a number allows the form to be submitted correctly
   // not converting 'people' to number allows the back end tests to pass
@@ -167,6 +177,12 @@ async function list(req, res) {
   });
 }
 
+function read(req, res) {
+  res.json({ data: res.locals.reservation });
+}
+
+//async function read(req, res) {}
+
 async function create(req, res) {
   const newReservation = await service.create(req.body.data);
 
@@ -177,6 +193,7 @@ async function create(req, res) {
 
 module.exports = {
   list: asyncErrorBoundary(list),
+  read: [asyncErrorBoundary(reservationExists), read],
   create: [
     hasData,
     hasPeople,
