@@ -23,9 +23,24 @@ function update(table_id, id) {
     .returning("*");
 }
 
+function destroy(table_id, reservation_id) {
+  return knex("tables")
+    .where({ table_id })
+    .update({ reservation_id: null, occupied: false })
+    .returning("*");
+}
+
+// function destroy(id) {
+//   return knex("tables")
+//     .where({ table_id: id })
+//     .update({ reservation_id: null, occupied: false })
+//     .returning("*");
+// }
+
 module.exports = {
   list,
   create,
   read,
   update,
+  destroy,
 };

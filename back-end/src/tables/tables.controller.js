@@ -44,7 +44,7 @@ async function tableExists(req, res, next) {
     res.locals.table_id = table_id;
     return next();
   }
-  next({ status: 404, message: "Table not found." });
+  next({ status: 404, message: `Table ${table_id} cannot be found.` });
 }
 
 async function reservationExists(req, res, next) {
@@ -87,6 +87,17 @@ function tableIsUnoccupied(req, res, next) {
   next();
 }
 
+function tableHasReservation(req, res, next) {
+  const { reservation_id } = res.locals.table;
+  if (!reservation_id) {
+    return next({
+      status: 400,
+      message: `table is not occupied`,
+    });
+  }
+  next();
+}
+
 // ------------------ CRUD handlers ---------------------
 
 async function list(req, res) {
@@ -112,6 +123,18 @@ async function update(req, res) {
   res.status(200).json({ data: response });
 }
 
+async function destroy(req, res) {
+  const { table_id } = req.params;
+  const { reservation_id } = res.locals.table;
+  res.json({ data: await service.destroy(table_id, reservation_id) });
+  // const { table_id, reservation_id } = res.locals.table;
+  // console.log(table_id);
+  // console.log(reservation_id);
+  // const response = await service.destroy(table_id);
+  // await reservationService.updateStatus(reservation_id, "finished");
+  // res.status(200).json({ data: response });
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [hasData, isValidTable, isValidTableName, asyncErrorBoundary(create)],
@@ -121,5 +144,11 @@ module.exports = {
     tableIsBigEnough,
     tableIsUnoccupied,
     asyncErrorBoundary(update),
+  ],
+  delete: [
+    asyncErrorBoundary(tableExists),
+    //asyncErrorBoundary(tableIsUnoccupied),
+    tableHasReservation,
+    asyncErrorBoundary(destroy),
   ],
 };
