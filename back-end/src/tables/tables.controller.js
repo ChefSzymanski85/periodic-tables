@@ -78,7 +78,7 @@ function tableIsBigEnough(req, res, next) {
 
 function tableIsUnoccupied(req, res, next) {
   const { occupied } = res.locals.table;
-  if (occupied) {
+  if (occupied === "occupied") {
     return next({
       status: 400,
       message: "Table is already occupied",

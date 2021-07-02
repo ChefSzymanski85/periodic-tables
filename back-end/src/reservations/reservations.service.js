@@ -19,6 +19,7 @@ function create(newReservation) {
     .then((reservations) => reservations[0]);
 }
 
+// not currently using this
 function updateStatus(id, status) {
   return knex("reservations")
     .select("*")

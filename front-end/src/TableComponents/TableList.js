@@ -35,17 +35,22 @@ function TableList() {
       <th scope="row">{table.table_id}</th>
       <td>{table.table_name}</td>
       <td>{table.capacity}</td>
-      {table.reservation_id
+      <td>
+        <p data-table-id-status={table.table_id}>
+          {table.reservation_id ? "occupied" : "free"}
+        </p>
+      </td>
+      {/* {table.reservation_id
         ? table.occupied === true
         : table.occupied === false}
       {table.occupied ? (
         <td data-table-id-status={table.table_id}>occupied</td>
       ) : (
         <td data-table-id-status={table.table_id}>free</td>
-      )}
+      )} */}
       <td>{table.reservation_id}</td>
       <td>
-        {table.occupied ? (
+        {table.reservation_id && (
           <button
             type="button"
             className="btn btn-success"
@@ -55,8 +60,6 @@ function TableList() {
           >
             Finish
           </button>
-        ) : (
-          ""
         )}
       </td>
     </tr>
