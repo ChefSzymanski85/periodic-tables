@@ -4,6 +4,7 @@ exports.up = function (knex) {
     table.string("last_name").notNullable();
     table.string("mobile_number").notNullable();
     table.integer("people").unsigned().notNullable();
+    table.string("status").defaultTo("booked");
     table.date("reservation_date").notNullable();
     table.time("reservation_time").notNullable();
   });
@@ -15,6 +16,7 @@ exports.down = function (knex) {
     table.dropColumn("last_name");
     table.dropColumn("mobile_number");
     table.dropColumn("people");
+    table.dropColumn("status");
     table.dropColumn("reservation_date");
     table.dropColumn("reservation_time");
   });

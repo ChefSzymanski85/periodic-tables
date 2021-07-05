@@ -5,6 +5,7 @@ async function list(reservation_date) {
   return knex("reservations")
     .select("*")
     .where({ reservation_date })
+    .whereNot("status", "finished")
     .orderBy("reservation_time", "asc");
 }
 
@@ -19,7 +20,7 @@ function create(newReservation) {
     .then((reservations) => reservations[0]);
 }
 
-// not currently using this
+// Tupac
 function updateStatus(id, status) {
   return knex("reservations")
     .select("*")
@@ -28,9 +29,44 @@ function updateStatus(id, status) {
     .returning("*");
 }
 
+// function updateStatus({ table_id, reservation_id }) {
+//   return knex.transaction((trx) => {
+//     return knex(reservations)
+//       .transacting(trx)
+//       .where({ reservation_id: reservation_id })
+//       .update({ status: "seated" })
+//       .then(() => {
+//         return knex(tables)
+//           .where({ table_id: table_id })
+//           .update({ reservation_id: reservation_id })
+//           .returning("*");
+//       })
+//       .then(trx.commit)
+//       .catch(trx.rollback);
+//   });
+// }
+
+// function destroy(table_id, reservation_id) {
+//   return knex.transaction((trx) => {
+//     return knex(reservations)
+//       .transacting(trx)
+//       .where({ reservation_id: reservation_id })
+//       .update({ status: "finished" })
+//       .then(() => {
+//         return knex(tables)
+//           .where({ table_id: table_id })
+//           .update({ reservation_id: null })
+//           .returning("*");
+//       })
+//       .then(trx.commit)
+//       .catch(trx.rollback);
+//   });
+// }
+
 module.exports = {
   list,
   read,
   create,
   updateStatus,
+  //destroy,
 };

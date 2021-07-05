@@ -123,8 +123,30 @@ export async function finishTable(table_id, signal) {
   const options = {
     method: "DELETE",
     headers,
-    body: JSON.stringify({ data: { table_id: table_id } }),
+    //body: JSON.stringify({ data: { table_id: table_id } }),
     signal,
   };
   return await fetchJson(url, options);
 }
+
+export async function reservationStatus(id, status, signal) {
+  const url = `${API_BASE_URL}/reservations/${id}/status`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: status }),
+    signal,
+  };
+  return await fetchJson(url, options);
+}
+
+// export async function updateStatus(status, reservation_id, signal) {
+//   const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+//   const options = {
+//     method: "PUT",
+//     headers,
+//     body: JSON.stringify({ data: { status: status } }),
+//     signal,
+//   };
+//   return await fetchJson(url, options);
+// }

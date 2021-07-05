@@ -46,6 +46,17 @@ function isValidReservation(req, res, next) {
   next();
 }
 
+function isSeated(req, res, next) {
+  const { status } = req.body.data;
+  if (status === "seated" || status === "finished") {
+    return next({
+      status: 400,
+      message: "Field 'status' cannot be 'seated' or 'finished'",
+    });
+  }
+  next();
+}
+
 async function reservationExists(req, res, next) {
   const { reservation_id } = req.params;
   const reservation = await service.read(reservation_id);
@@ -53,7 +64,7 @@ async function reservationExists(req, res, next) {
     res.locals.reservation = reservation;
     return next();
   }
-  next({ status: 404, message: "Reservation not found." });
+  next({ status: 404, message: `Reservation ${reservation_id} not found.` });
 }
 
 function hasPeople(req, res, next) {
@@ -160,6 +171,29 @@ function closedOnTuesdays(req, res, next) {
   next();
 }
 
+function isValidStatus(req, res, next) {
+  const { status } = req.body.data;
+  //if (status !== "booked" || status !== "seated" || status !== "finished") {
+  if (status === "unknown") {
+    return next({
+      status: 400,
+      message: "Field 'status' cannot be 'unknown'.",
+    });
+  }
+  next();
+}
+
+function isFinished(req, res, next) {
+  const { status } = res.locals.reservation;
+  if (status === "finished") {
+    return next({
+      status: 400,
+      message: "A finished reservation cannot be updated.",
+    });
+  }
+  next();
+}
+
 // ------------------ CRUD handlers ---------------------
 
 //const reservations = [];
@@ -191,6 +225,18 @@ async function create(req, res) {
   });
 }
 
+// async function updateStatus(req, res) {}
+
+// async function destroy(req, res) {}
+
+async function updateStatus(req, res) {
+  const { status } = req.body.data;
+  const { reservation_id } = res.locals.reservation;
+  const response = await service.updateStatus(reservation_id, status);
+  const newStatus = response[0].status;
+  res.status(200).json({ data: { status: newStatus } });
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   read: [asyncErrorBoundary(reservationExists), read],
@@ -198,11 +244,18 @@ module.exports = {
     hasData,
     hasPeople,
     isValidReservation,
+    isSeated,
     isValidTime,
     isValidDate,
     openHours,
     closedOnTuesdays,
     isFutureDate,
     asyncErrorBoundary(create),
+  ],
+  updateStatus: [
+    asyncErrorBoundary(reservationExists),
+    isValidStatus,
+    isFinished,
+    asyncErrorBoundary(updateStatus),
   ],
 };

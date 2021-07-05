@@ -87,6 +87,20 @@ function tableIsUnoccupied(req, res, next) {
   next();
 }
 
+function isSeated(req, res, next) {
+  // console.log(req.params);
+  // console.log(req.body.data);
+  // console.log(res.locals.reservation);
+  const { status } = res.locals.reservation;
+  if (status === "seated") {
+    return next({
+      status: 400,
+      message: "Table is already seated",
+    });
+  }
+  next();
+}
+
 function tableHasReservation(req, res, next) {
   const { reservation_id } = res.locals.table;
   if (!reservation_id) {
@@ -117,22 +131,28 @@ async function update(req, res) {
   if (!req.body.data.reservation_id) {
     return { status: 400, message: "Reservation_id not found" };
   }
-  const { reservation_id } = req.body.data;
+  //const { reservation_id } = req.body.data; //Sean
+  const { reservation_id, status } = res.locals.reservation;
   const table_id = res.locals.table_id;
+  if (status === "booked") {
+    await reservationService.updateStatus(reservation_id, "seated");
+  }
   const response = await service.update(table_id, reservation_id);
   res.status(200).json({ data: response });
 }
 
 async function destroy(req, res) {
-  const { table_id } = req.params;
-  const { reservation_id } = res.locals.table;
-  res.json({ data: await service.destroy(table_id, reservation_id) });
-  // const { table_id, reservation_id } = res.locals.table;
+  //Sean
+  // const { table_id } = req.params;
+  // const { reservation_id } = res.locals.table;
+  // res.json({ data: await service.destroy(table_id, reservation_id) });
+
+  const { table_id, reservation_id } = res.locals.table;
   // console.log(table_id);
   // console.log(reservation_id);
-  // const response = await service.destroy(table_id);
-  // await reservationService.updateStatus(reservation_id, "finished");
-  // res.status(200).json({ data: response });
+  const response = await service.destroy(table_id);
+  await reservationService.updateStatus(reservation_id, "finished");
+  res.status(200).json({ data: response });
 }
 
 module.exports = {
@@ -143,6 +163,7 @@ module.exports = {
     reservationExists,
     tableIsBigEnough,
     tableIsUnoccupied,
+    isSeated,
     asyncErrorBoundary(update),
   ],
   delete: [

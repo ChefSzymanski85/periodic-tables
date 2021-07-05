@@ -57,6 +57,7 @@ function Dashboard({ date }) {
       last_name,
       mobile_number,
       people,
+      status,
       reservation_date,
       reservation_time,
     }) => (
@@ -66,16 +67,26 @@ function Dashboard({ date }) {
         <td>{last_name}</td>
         <td>{mobile_number}</td>
         <td>{people}</td>
+        <td>
+          <p data-reservation-id-status={reservation_id}>{status}</p>
+        </td>
         <td>{reservation_date}</td>
         <td>{reservation_time}</td>
         <td>
-          <Link
-            to={`/reservations/${reservation_id}/seat`}
-            type="button"
-            className="btn btn-success"
-          >
-            Seat
-          </Link>
+          {status === "booked" ? (
+            <Link
+              to={`/reservations/${reservation_id}/seat`}
+              type="button"
+              className="btn btn-success"
+              // onClick={() => {
+              //   status = "seated";
+              // }}
+            >
+              Seat
+            </Link>
+          ) : (
+            ""
+          )}
         </td>
       </tr>
     )
@@ -96,6 +107,7 @@ function Dashboard({ date }) {
             <th scope="col">Last Name</th>
             <th scope="col">Phone number</th>
             <th scope="col">Number of people</th>
+            <th scope="col">Status</th>
             <th scope="col">Date</th>
             <th scope="col">Time</th>
           </tr>
