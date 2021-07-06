@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import { useHistory } from "react-router";
+import { useHistory } from "react-router";
+import { reservationStatus } from "../utils/api";
 // import { listReservations } from "../utils/api";
 // import ErrorAlert from "../layout/ErrorAlert";
 // import useQuery from "../utils/useQuery";
@@ -9,6 +10,22 @@ import { Link } from "react-router-dom";
 // import { today } from "../utils/date-time";
 
 function ReservationList({ reservations }) {
+  const history = useHistory();
+
+  async function onCancel(event) {
+    const result = window.confirm(
+      "Do you want to cancel this reservation? This cannot be undone."
+    );
+    if (result) {
+      const id = Number(event.target.value);
+      {
+        reservationStatus(id, { status: "cancelled" }).then(() =>
+          history.go(0)
+        );
+      }
+    }
+  }
+
   // fill in table with data from API
   const tableRows = reservations.map(
     ({
@@ -48,6 +65,26 @@ function ReservationList({ reservations }) {
             ""
           )}
         </td>
+        <td>
+          <Link
+            to={`/reservations/${reservation_id}/edit`}
+            type="button"
+            className="btn btn-warning"
+          >
+            Edit
+          </Link>
+        </td>
+        <td>
+          <button
+            type="button"
+            className="btn btn-danger"
+            data-reservation-id-cancel={reservation_id}
+            value={reservation_id}
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+        </td>
       </tr>
     )
   );
@@ -62,6 +99,7 @@ function ReservationList({ reservations }) {
             <th scope="col">Last Name</th>
             <th scope="col">Phone number</th>
             <th scope="col">Number of people</th>
+            <th scope="col">Status</th>
             <th scope="col">Date</th>
             <th scope="col">Time</th>
           </tr>

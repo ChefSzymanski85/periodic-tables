@@ -7,6 +7,7 @@ import ReservationCreate from "../ReservationComponents/ReservationCreate";
 import TableCreate from "../TableComponents/TableCreate";
 import Seat from "../ReservationComponents/Seat";
 import Search from "../SearchComponents/Search";
+import ReservationEdit from "../ReservationComponents/ReservationEdit";
 import { today } from "../utils/date-time";
 
 /**
@@ -19,6 +20,9 @@ import { today } from "../utils/date-time";
 function Routes() {
   return (
     <Switch>
+      <Route path="/reservations/:reservation_id/edit">
+        <ReservationEdit />
+      </Route>
       <Route path="/search">
         <Search />
       </Route>

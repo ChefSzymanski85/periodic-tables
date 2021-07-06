@@ -150,3 +150,24 @@ export async function reservationStatus(id, status, signal) {
 //   };
 //   return await fetchJson(url, options);
 // }
+
+export async function readReservation(id, signal) {
+  const url = `${API_BASE_URL}/reservations/${id}`;
+  const options = {
+    method: "GET",
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options);
+}
+
+export async function updateReservation(status, id, signal) {
+  const url = `${API_BASE_URL}/reservations/${id}`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: status }),
+    signal,
+  };
+  return await fetchJson(url, options);
+}
