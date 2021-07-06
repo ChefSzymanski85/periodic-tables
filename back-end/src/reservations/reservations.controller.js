@@ -204,11 +204,24 @@ function isFinished(req, res, next) {
 
 // added req.query argument
 async function list(req, res) {
-  const { date } = req.query;
-  const reservationsByDate = await service.list(date);
-  res.json({
-    data: reservationsByDate,
-  });
+  try {
+    let response = [];
+    if (req.query.mobile_number) {
+      const mobile = req.query.mobile_number;
+      response = await service.search(mobile);
+    }
+    if (req.query.date) {
+      const { date } = req.query;
+      response = await service.list(date);
+    }
+    //if (!response) response = [];
+    return res.json({ data: response });
+  } catch (error) {
+    console.log(error);
+  }
+  // res.json({
+  //   data: reservationsByDate,
+  // });
 }
 
 function read(req, res) {

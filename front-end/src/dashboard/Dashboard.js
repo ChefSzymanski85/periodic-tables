@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import useQuery from "../utils/useQuery";
 import { previous } from "../utils/date-time";
 import { next } from "../utils/date-time";
 import { today } from "../utils/date-time";
-//import ReservationList from "../ReservationComponents/ReservationList";
+import ReservationList from "../ReservationComponents/ReservationList";
 import TableList from "../TableComponents/TableList";
 
 /**
@@ -48,99 +48,42 @@ function Dashboard({ date }) {
     history.push(`/dashboard?date=${today()}`);
   }
 
-  // fill in table with data from API
-
-  const tableRows = reservations.map(
-    ({
-      reservation_id,
-      first_name,
-      last_name,
-      mobile_number,
-      people,
-      status,
-      reservation_date,
-      reservation_time,
-    }) => (
-      <tr key={reservation_id}>
-        <th scope="row">{reservation_id}</th>
-        <td>{first_name}</td>
-        <td>{last_name}</td>
-        <td>{mobile_number}</td>
-        <td>{people}</td>
-        <td>
-          <p data-reservation-id-status={reservation_id}>{status}</p>
-        </td>
-        <td>{reservation_date}</td>
-        <td>{reservation_time}</td>
-        <td>
-          {status === "booked" ? (
-            <Link
-              to={`/reservations/${reservation_id}/seat`}
-              type="button"
-              className="btn btn-success"
-              // onClick={() => {
-              //   status = "seated";
-              // }}
-            >
-              Seat
-            </Link>
-          ) : (
-            ""
-          )}
-        </td>
-      </tr>
-    )
-  );
-
   // JSX
   return (
-    <main>
-      <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
-      </div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">ID#</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Phone number</th>
-            <th scope="col">Number of people</th>
-            <th scope="col">Status</th>
-            <th scope="col">Date</th>
-            <th scope="col">Time</th>
-          </tr>
-        </thead>
-        <tbody>{tableRows}</tbody>
-      </table>
-      <div className="row">
-        <button
-          type="button"
-          className="btn btn-secondary ml-3"
-          onClick={previousHandler}
-        >
-          Previous
-        </button>
-        <button
-          type="button"
-          className="btn btn-dark ml-2"
-          onClick={todayHandler}
-        >
-          Today
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary ml-2"
-          onClick={nextHandler}
-        >
-          Next
-        </button>
-      </div>
-      <ErrorAlert error={reservationsError} />
-      {/* <ReservationList /> */}
-      <TableList />
-    </main>
+    <div>
+      <main>
+        <h1>Dashboard</h1>
+        <div className="d-md-flex mb-3">
+          <h4 className="mb-0">Reservations for {date}</h4>
+        </div>
+        <ErrorAlert error={reservationsError} />
+        <ReservationList reservations={reservations} />
+        <div className="row">
+          <button
+            type="button"
+            className="btn btn-secondary ml-3"
+            onClick={previousHandler}
+          >
+            Previous
+          </button>
+          <button
+            type="button"
+            className="btn btn-dark ml-2"
+            onClick={todayHandler}
+          >
+            Today
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary ml-2"
+            onClick={nextHandler}
+          >
+            Next
+          </button>
+        </div>
+        <TableList />
+      </main>
+    </div>
   );
 }
 

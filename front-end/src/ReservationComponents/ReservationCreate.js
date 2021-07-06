@@ -44,7 +44,7 @@ function ReservationCreate() {
       <ErrorAlert error={error} />
       <form onSubmit={submitHandler} className="ml-5">
         <div className="row">
-          <label htmlFor="first_name" className="col-1">
+          <label htmlFor="first_name" className="col-1 mt-1">
             First name:
           </label>
           <div className="col-3 mb-3">
@@ -58,7 +58,7 @@ function ReservationCreate() {
               required={true}
             />
           </div>
-          <label htmlFor="people" className="col-2">
+          <label htmlFor="people" className="col-2 mt-1">
             Number of people:
           </label>
           <div className="col-3 mb-3">
@@ -76,7 +76,7 @@ function ReservationCreate() {
           <div className="col-1"></div>
         </div>
         <div className="row">
-          <label htmlFor="last_name" className="col-1">
+          <label htmlFor="last_name" className="col-1 mt-1">
             Last name:
           </label>
           <div className="col-3 mb-3">
@@ -90,7 +90,7 @@ function ReservationCreate() {
               required={true}
             />
           </div>
-          <label htmlFor="reservation_date" className="col-2">
+          <label htmlFor="reservation_date" className="col-2 mt-1">
             Date of reservation:
           </label>
           <div className="col-3 mb-3">
@@ -121,7 +121,7 @@ function ReservationCreate() {
               required={true}
             />
           </div>
-          <label htmlFor="reservation_time" className="col-2">
+          <label htmlFor="reservation_time" className="col-2 mt-1">
             Time of reservation:
           </label>
           <div className="col-3 mb-3">

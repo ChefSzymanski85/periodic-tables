@@ -1,71 +1,59 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
-import { listReservations } from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert";
-import useQuery from "../utils/useQuery";
-import { previous } from "../utils/date-time";
-import { next } from "../utils/date-time";
-import { today } from "../utils/date-time";
+import React from "react";
+import { Link } from "react-router-dom";
+// import { useHistory } from "react-router";
+// import { listReservations } from "../utils/api";
+// import ErrorAlert from "../layout/ErrorAlert";
+// import useQuery from "../utils/useQuery";
+// import { previous } from "../utils/date-time";
+// import { next } from "../utils/date-time";
+// import { today } from "../utils/date-time";
 
-function ReservationList({ date }) {
-  const history = useHistory();
-
-  const query = useQuery().get("date");
-  if (query) date = query;
-
-  const [reservations, setReservations] = useState([]);
-  const [reservationsError, setReservationsError] = useState(null);
-
-  useEffect(loadDashboard, [date]);
-
-  function loadDashboard() {
-    const abortController = new AbortController();
-    setReservationsError(null);
-    listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
-    return () => abortController.abort();
-  }
-
-  function previousHandler() {
-    history.push(`/dashboard?date=${previous(date)}`);
-  }
-
-  function nextHandler() {
-    history.push(`/dashboard?date=${next(date)}`);
-  }
-
-  function todayHandler() {
-    history.push(`/dashboard?date=${today()}`);
-  }
-
+function ReservationList({ reservations }) {
   // fill in table with data from API
-  const tableRows = reservations.map((reservation) => (
-    <tr key={reservation.reservation_id}>
-      <th scope="row">{reservation.reservation_id}</th>
-      <td>{reservation.first_name}</td>
-      <td>{reservation.last_name}</td>
-      <td>{reservation.mobile_number}</td>
-      <td>{reservation.people}</td>
-      <td>{reservation.reservation_date}</td>
-      <td>{reservation.reservation_time}</td>
-      <td>
-        <button
-          type="button"
-          className="btn btn-success"
-          href={`/reservations/${reservation.reservation_id}/seat`}
-        >
-          Seat
-        </button>
-      </td>
-    </tr>
-  ));
+  const tableRows = reservations.map(
+    ({
+      reservation_id,
+      first_name,
+      last_name,
+      mobile_number,
+      people,
+      status,
+      reservation_date,
+      reservation_time,
+    }) => (
+      <tr key={reservation_id}>
+        <th scope="row">{reservation_id}</th>
+        <td>{first_name}</td>
+        <td>{last_name}</td>
+        <td>{mobile_number}</td>
+        <td>{people}</td>
+        <td>
+          <p data-reservation-id-status={reservation_id}>{status}</p>
+        </td>
+        <td>{reservation_date}</td>
+        <td>{reservation_time}</td>
+        <td>
+          {status === "booked" ? (
+            <Link
+              to={`/reservations/${reservation_id}/seat`}
+              type="button"
+              className="btn btn-success"
+              // onClick={() => {
+              //   status = "seated";
+              // }}
+            >
+              Seat
+            </Link>
+          ) : (
+            ""
+          )}
+        </td>
+      </tr>
+    )
+  );
 
   return (
     <div>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {date}</h4>
-      </div>
       <table className="table">
         <thead>
           <tr>
@@ -80,30 +68,6 @@ function ReservationList({ date }) {
         </thead>
         <tbody>{tableRows}</tbody>
       </table>
-      <div className="row">
-        <button
-          type="button"
-          className="btn btn-secondary ml-3"
-          onClick={previousHandler}
-        >
-          Previous
-        </button>
-        <button
-          type="button"
-          className="btn btn-dark ml-2"
-          onClick={todayHandler}
-        >
-          Today
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary ml-2"
-          onClick={nextHandler}
-        >
-          Next
-        </button>
-      </div>
-      <ErrorAlert error={reservationsError} />
     </div>
   );
 }

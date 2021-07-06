@@ -29,6 +29,16 @@ function updateStatus(id, status) {
     .returning("*");
 }
 
+function search(mobile_number) {
+  return knex("reservations")
+    .whereRaw(
+      "translate(mobile_number, '() -', '') like ?",
+      `%${mobile_number.replace(/\D/g, "")}%`
+    )
+    .orderBy("reservation_date");
+}
+
+// Sean
 // function updateStatus({ table_id, reservation_id }) {
 //   return knex.transaction((trx) => {
 //     return knex(reservations)
@@ -69,4 +79,5 @@ module.exports = {
   create,
   updateStatus,
   //destroy,
+  search,
 };
