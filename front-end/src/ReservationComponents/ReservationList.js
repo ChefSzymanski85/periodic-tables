@@ -18,11 +18,7 @@ function ReservationList({ reservations }) {
     );
     if (result) {
       const id = Number(event.target.value);
-      {
-        reservationStatus(id, { status: "cancelled" }).then(() =>
-          history.go(0)
-        );
-      }
+      reservationStatus(id, { status: "cancelled" }).then(() => history.go(0));
     }
   }
 
@@ -47,7 +43,7 @@ function ReservationList({ reservations }) {
         <td>
           <p data-reservation-id-status={reservation_id}>{status}</p>
         </td>
-        <td>{reservation_date}</td>
+        {/* <td>{reservation_date}</td> */}
         <td>{reservation_time}</td>
         <td>
           {status === "booked" ? (
@@ -100,7 +96,7 @@ function ReservationList({ reservations }) {
             <th scope="col">Phone number</th>
             <th scope="col">Number of people</th>
             <th scope="col">Status</th>
-            <th scope="col">Date</th>
+            {/* <th scope="col">Date</th> */}
             <th scope="col">Time</th>
           </tr>
         </thead>

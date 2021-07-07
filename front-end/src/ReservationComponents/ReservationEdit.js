@@ -173,3 +173,22 @@ export default ReservationEdit;
 // }
 
 // export default ReservationCreate;
+
+// Tupac
+// useEffect(() => {
+//     const loadReservation = async () => {
+//       const abortController = new AbortController();
+//       setError(null);
+//       try {
+//         const response = await readReservation(
+//           reservation_id,
+//           abortController.signal
+//         );
+//         setReservation(() => response);
+//       } catch (error) {
+//         setError(error);
+//       }
+//       return () => abortController.abort();
+//     };
+//     if (reservation_id) loadReservation();
+//   }, [reservation_id]);

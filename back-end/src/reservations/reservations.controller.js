@@ -71,8 +71,7 @@ function hasPeople(req, res, next) {
   // converting 'people' to a number allows the form to be submitted correctly
   // not converting 'people' to number allows the back end tests to pass
   const people = req.body.data.people;
-  //console.log(people);
-  if (parseInt(people) >= 1) {
+  if (typeof people === "number" && people >= 1) {
     return next();
   }
   next({
@@ -242,6 +241,15 @@ async function create(req, res) {
 
 // async function destroy(req, res) {}
 
+async function update(req, res) {
+  // console.log(res.locals.reservation);
+  // const updated = await service.update(res.locals.reservation);
+  // console.log(updated);
+  // res.json({ data: res.locals.reservation });
+  const response = await service.update(req.body.data);
+  res.json({ data: response });
+}
+
 async function updateStatus(req, res) {
   const { status } = req.body.data;
   const { reservation_id } = res.locals.reservation;
@@ -264,6 +272,19 @@ module.exports = {
     closedOnTuesdays,
     isFutureDate,
     asyncErrorBoundary(create),
+  ],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    hasData,
+    hasPeople,
+    isValidReservation,
+    isSeated,
+    isValidTime,
+    isValidDate,
+    openHours,
+    closedOnTuesdays,
+    isFutureDate,
+    asyncErrorBoundary(update),
   ],
   updateStatus: [
     asyncErrorBoundary(reservationExists),
