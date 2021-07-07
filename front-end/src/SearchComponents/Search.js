@@ -45,11 +45,11 @@ function Search() {
       <h1 className="ml-5 mt-1 mb-5">Find A Reservation</h1>
       <ErrorAlert error={error} />
       <form onSubmit={submitHandler} className="ml-5 mb-5">
-        <div className="row">
-          <label htmlFor="mobile_number" className="col-1.5 mt-1">
+        <div>
+          <label htmlFor="mobile_number" className="ml-3 mt-1">
             Phone number:
           </label>
-          <div className="col-3">
+          <div className="col-sm-12 col-lg-5">
             <input
               className="form-control"
               name="mobile_number"
@@ -60,9 +60,11 @@ function Search() {
               placeholder="Enter a customer's phone number"
             />
           </div>
+        </div>
+        <div>
           <button
             type="submit"
-            className="btn btn-primary ml-1"
+            className="btn btn-primary ml-3 mt-2"
             //onClick={cancelHandler}
           >
             Find

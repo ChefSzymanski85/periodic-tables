@@ -31,13 +31,13 @@ function ReservationList({ reservations }) {
       mobile_number,
       people,
       status,
-      reservation_date,
+      //reservation_date,
       reservation_time,
     }) => (
       <tr key={reservation_id}>
-        <th scope="row">{reservation_id}</th>
-        <td>{first_name}</td>
-        <td>{last_name}</td>
+        <th scope="row">
+          {first_name} {last_name}
+        </th>
         <td>{mobile_number}</td>
         <td>{people}</td>
         <td>
@@ -50,7 +50,7 @@ function ReservationList({ reservations }) {
             <Link
               to={`/reservations/${reservation_id}/seat`}
               type="button"
-              className="btn btn-success"
+              className="btn btn-success btn-sm"
               // onClick={() => {
               //   status = "seated";
               // }}
@@ -65,7 +65,7 @@ function ReservationList({ reservations }) {
           <Link
             to={`/reservations/${reservation_id}/edit`}
             type="button"
-            className="btn btn-warning"
+            className="btn btn-warning btn-sm"
           >
             Edit
           </Link>
@@ -73,7 +73,7 @@ function ReservationList({ reservations }) {
         <td>
           <button
             type="button"
-            className="btn btn-danger"
+            className="btn btn-danger btn-sm"
             data-reservation-id-cancel={reservation_id}
             value={reservation_id}
             onClick={onCancel}
@@ -87,14 +87,14 @@ function ReservationList({ reservations }) {
 
   return (
     <div>
-      <table className="table">
+      <table className="table table-responsive">
         <thead>
           <tr>
-            <th scope="col">Reservation ID</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Phone number</th>
-            <th scope="col">Number of people</th>
+            {/* <th scope="col">Reservation ID</th> */}
+            <th scope="col">Name</th>
+            {/* <th scope="col">Last Name</th> */}
+            <th scope="col">Phone</th>
+            <th scope="col">People</th>
             <th scope="col">Status</th>
             {/* <th scope="col">Date</th> */}
             <th scope="col">Time</th>

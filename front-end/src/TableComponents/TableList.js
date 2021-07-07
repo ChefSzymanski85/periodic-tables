@@ -32,8 +32,7 @@ function TableList() {
 
   const tableRows = tables.map((table) => (
     <tr key={table.table_id}>
-      <th scope="row">{table.table_id}</th>
-      <td>{table.table_name}</td>
+      <th scope="row">{table.table_name}</th>
       <td>{table.capacity}</td>
       <td>
         <p data-table-id-status={table.table_id}>
@@ -48,7 +47,6 @@ function TableList() {
       ) : (
         <td data-table-id-status={table.table_id}>free</td>
       )} */}
-      <td>{table.reservation_id}</td>
       <td>
         {table.reservation_id && (
           <button
@@ -68,16 +66,15 @@ function TableList() {
   return (
     <div>
       <div className="d-md-flex mb-3">
-        <h5 className="mt-5 mb-0">Tables</h5>
+        <h5 className="mt-5">Tables</h5>
       </div>
-      <table className="table">
+      <table className="table table-responsive">
         <thead>
           <tr>
-            <th scope="col">Table ID</th>
             <th scope="col">Table Name</th>
             <th scope="col">Capacity</th>
             <th scope="col">Status</th>
-            <th scope="col">Reservation ID</th>
+
             <th scope="col">Finish</th>
           </tr>
         </thead>

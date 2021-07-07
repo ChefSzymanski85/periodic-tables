@@ -50,11 +50,9 @@ function Seat() {
       <h1 className="ml-5 mt-1 mb-5">Seat Reservation</h1>
       <ErrorAlert error={tablesError} />
       <form onSubmit={submitHandler} className="ml-5">
-        <div className="row">
-          <label htmlFor="table_id" className="col-1">
-            Table:
-          </label>
-          <div className="col-3 mb-4">
+        <div className="col-lg-3 col-md-6">
+          <label htmlFor="table_id">Table:</label>
+          <div className="mb-4">
             <select
               name="table_id"
               type="text"

@@ -35,14 +35,12 @@ function TableCreate() {
 
   return (
     <div>
-      <h1 className="ml-5 mt-1 mb-5">Insert A New Table</h1>
+      <h1 className="ml-5 mt-1 mb-5">Insert New Table</h1>
       <ErrorAlert error={error} />
       <form onSubmit={submitHandler} className="ml-5">
-        <div className="row">
-          <label htmlFor="table_name" className="col-1">
-            Table Name:
-          </label>
-          <div className="col-3 mb-4">
+        <div className="col-lg-3 col-md-6">
+          <label htmlFor="table_name">Table Name:</label>
+          <div className="mb-4">
             <input
               name="table_name"
               type="text"
@@ -55,11 +53,9 @@ function TableCreate() {
             />
           </div>
         </div>
-        <div className="row">
-          <label htmlFor="capacity" className="col-1">
-            Capacity:
-          </label>
-          <div className="col-3">
+        <div className="col-lg-3 col-md-6">
+          <label htmlFor="capacity">Capacity:</label>
+          <div>
             <input
               name="capacity"
               type="number"
