@@ -35,6 +35,7 @@ The table below describes the reservation resource
 | POST `/reservations`                        | Creates a new reservation with a unique `reservation_id`                |
 | PUT `/reservations/{reservation_id}`        | Edits a specific reservation for the given `reservation_id`             |
 | PUT `/reservations/{reservation_id}/status` | Updates status of a specific reservation for the given `reservation_id` |
+
 The table below describes the tables resource
 | Tables API Available Paths & Methods | Description                                                             |
 | ------------------------------------ | ----------------------------------------------------------------------- |
@@ -42,6 +43,7 @@ The table below describes the tables resource
 | POST `/tables`                       | Creates a new table with a unique `table_id`                            |
 | PUT `/tables/{table_id}/seat`        | Assigns a reservation to the table by adding the `reservation_id`       |
 | DELETE `/tables/{table_id}/seat`     | Updates status of a specific reservation for the given `reservation_id` |
+
 The table below describes the folders in this repository:
 | Folder/file path | Description                                                      |
 | ---------------- | ---------------------------------------------------------------- |
