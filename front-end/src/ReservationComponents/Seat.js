@@ -8,7 +8,7 @@ function Seat() {
 
   const [tables, setTables] = useState([]);
   const [tableId, setTableId] = useState("");
-  const [tablesError, setTablesError] = useState([]);
+  const [error, setError] = useState([]);
 
   const { reservation_id } = useParams();
 
@@ -16,8 +16,8 @@ function Seat() {
 
   function loadTables() {
     const abortController = new AbortController();
-    setTablesError(null);
-    listTables(abortController.signal).then(setTables).catch(setTablesError);
+    setError(null);
+    listTables(abortController.signal).then(setTables).catch(setError);
     return () => abortController.abort();
   }
 
@@ -31,14 +31,14 @@ function Seat() {
 
   function submitHandler(event) {
     event.preventDefault();
-    //event.stopPropagation();
     const abortController = new AbortController();
     seatReservation(reservation_id, tableId, abortController.signal)
       .then(() => history.push("/"))
-      .catch(setTablesError);
+      .catch(setError);
     return () => abortController.abort();
   }
 
+  // create options dropdown list from tables list
   const options = tables.map((table) => (
     <option type="text" key={table.table_id} value={table.table_id}>
       {table.table_name} - {table.capacity}
@@ -48,7 +48,7 @@ function Seat() {
   return (
     <div>
       <h1 className="ml-5 mt-1 mb-5">Seat Reservation</h1>
-      <ErrorAlert error={tablesError} />
+      <ErrorAlert error={error} />
       <form onSubmit={submitHandler} className="ml-5">
         <div className="col-lg-3 col-md-6">
           <label htmlFor="table_id">Table:</label>

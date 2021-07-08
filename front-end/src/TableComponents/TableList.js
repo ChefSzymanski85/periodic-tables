@@ -8,14 +8,14 @@ function TableList() {
   const history = useHistory();
 
   const [tables, setTables] = useState([]);
-  const [tablesError, setTablesError] = useState([]);
+  const [error, setError] = useState([]);
 
   useEffect(loadTables, []);
 
   function loadTables() {
     const abortController = new AbortController();
-    setTablesError(null);
-    listTables(abortController.signal).then(setTables).catch(setTablesError);
+    setError(null);
+    listTables(abortController.signal).then(setTables).catch(setError);
     return () => abortController.abort();
   }
 
@@ -80,7 +80,7 @@ function TableList() {
         </thead>
         <tbody>{tableRows}</tbody>
       </table>
-      <ErrorAlert error={tablesError} />
+      <ErrorAlert error={error} />
     </div>
   );
 }

@@ -15,27 +15,29 @@ import TableList from "../TableComponents/TableList";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
+
 function Dashboard({ date }) {
   const history = useHistory();
 
+  // use utility function to get date of the query
   const query = useQuery().get("date");
   if (query) date = query;
 
   const [reservations, setReservations] = useState([]);
-  const [reservationsError, setReservationsError] = useState(null);
-  //console.log(reservations);
+  const [error, setError] = useState(null);
 
   useEffect(loadDashboard, [date]);
 
   function loadDashboard() {
     const abortController = new AbortController();
-    setReservationsError(null);
+    setError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
-      .catch(setReservationsError);
+      .catch(setError);
     return () => abortController.abort();
   }
 
+  // button handlers to go back and forth between dates
   function previousHandler() {
     history.push(`/dashboard?date=${previous(date)}`);
   }
@@ -48,7 +50,6 @@ function Dashboard({ date }) {
     history.push(`/dashboard?date=${today()}`);
   }
 
-  // JSX
   return (
     <div>
       <main>
@@ -56,7 +57,7 @@ function Dashboard({ date }) {
         <div className="d-md-flex mb-3">
           <h4 className="ml-1 row">Reservations for {date}</h4>
         </div>
-        <ErrorAlert error={reservationsError} />
+        <ErrorAlert error={error} />
         <ReservationList reservations={reservations} />
         <div className="row">
           <button

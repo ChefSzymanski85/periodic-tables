@@ -20,7 +20,6 @@ function TableCreate() {
     event.preventDefault();
     createTable(table)
       .then(() => {
-        //history.push(`/dashboard?date=${reservation.reservation_date}`);
         history.push("/dashboard");
       })
       .catch(setError);
@@ -49,7 +48,6 @@ function TableCreate() {
               value={table.table_name}
               onChange={changeHandler}
               required={true}
-              // must be at least 2 characters
             />
           </div>
         </div>

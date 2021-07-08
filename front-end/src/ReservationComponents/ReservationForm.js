@@ -7,7 +7,7 @@ import {
 } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 
-function ReservationCreate() {
+function ReservationForm() {
   const history = useHistory();
   const [error, setError] = useState(null);
   const location = useLocation();
@@ -31,8 +31,8 @@ function ReservationCreate() {
           reservation_id,
           abortController.signal
         );
+        // get date response in order to use for placeholder for edit reservation
         const thisDate = response.reservation_date.split("T")[0];
-        //setReservation(() => response);
         setReservation({
           ...response,
           reservation_date: thisDate,
@@ -69,16 +69,6 @@ function ReservationCreate() {
     return () => abortController.abort();
   }
 
-  // only accounts for create
-  // function submitHandler(event) {
-  //   event.preventDefault();
-  //   createReservation(reservation)
-  //     .then(() => {
-  //       history.push(`/dashboard?date=${reservation.reservation_date}`);
-  //     })
-  //     .catch(setError);
-  // }
-
   function cancelHandler() {
     history.goBack();
   }
@@ -92,7 +82,6 @@ function ReservationCreate() {
 
   function submitHandler(event) {
     event.preventDefault();
-    event.stopPropagation(); // abort controller?
     if (location.pathname.includes("edit")) {
       editReservation({ ...reservation, people: parseInt(reservation.people) });
     } else {
@@ -101,10 +90,7 @@ function ReservationCreate() {
         people: parseInt(reservation.people),
       });
     }
-    editReservation(reservation);
   }
-
-  //function isValidDate() {}
 
   return (
     <div>
@@ -175,7 +161,6 @@ function ReservationCreate() {
                 type="date"
                 className="form-control"
                 id="reservation_date"
-                //pattern="\d{4}-\d{2}-\d{2}"
                 placeholder="2013-01-25"
                 value={reservation.reservation_date}
                 onChange={changeHandler}
@@ -210,8 +195,6 @@ function ReservationCreate() {
                 type="time"
                 className="form-control"
                 id="reservation_time"
-                // min="10:30"
-                // max="21:30"
                 value={reservation.reservation_time}
                 onChange={changeHandler}
                 required={true}
@@ -227,12 +210,7 @@ function ReservationCreate() {
           >
             Cancel
           </button>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            value="submit"
-            //onSubmit={buttonSubmitHandler}
-          >
+          <button type="submit" className="btn btn-primary" value="submit">
             Submit
           </button>
         </div>
@@ -241,4 +219,4 @@ function ReservationCreate() {
   );
 }
 
-export default ReservationCreate;
+export default ReservationForm;

@@ -1,22 +1,7 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
-// function to validate time
-// function isTime(str) {
-//   regexp = /^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/;
-
-//   if (regexp.test(str)) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
-
 // --------------- Middleware handlers-------------------
-// create parent function called validateDate
-// create a list of objects
-// as it hits an error, add or push to the list
-// if errors.count === 0, then next(), else push error
 
 function hasData(req, res, next) {
   if (req.body.data) {
@@ -68,8 +53,6 @@ async function reservationExists(req, res, next) {
 }
 
 function hasPeople(req, res, next) {
-  // converting 'people' to a number allows the form to be submitted correctly
-  // not converting 'people' to number allows the back end tests to pass
   const people = req.body.data.people;
   if (typeof people === "number" && people >= 1) {
     return next();
@@ -82,7 +65,7 @@ function hasPeople(req, res, next) {
 
 function isValidDate(req, res, next) {
   const date = req.body.data.reservation_date;
-  //if (Number.isNaN(date)) {
+  // regex expression to format date
   if (!date.match(/\d{4}-\d{2}-\d{2}/)) {
     return next({
       status: 400,
@@ -94,7 +77,7 @@ function isValidDate(req, res, next) {
 
 function isValidTime(req, res, next) {
   const time = req.body.data.reservation_time;
-  //if (isTime(time) === false) {
+  // regex expression to format time
   if (!time.match(/\d{2}:\d{2}/)) {
     return next({
       status: 400,
@@ -104,6 +87,7 @@ function isValidTime(req, res, next) {
   next();
 }
 
+// find current date and time to ensure reservation is made for a future date
 function isFutureDate(req, rest, next) {
   // combine reservation date and time
   const dateAndTime = `${req.body.data.reservation_date}T${req.body.data.reservation_time}:00.000Z`;
@@ -124,6 +108,7 @@ function isFutureDate(req, rest, next) {
   next();
 }
 
+// ensure that reservations are only made during open hours
 function openHours(req, res, next) {
   // combine date and time
   const dateAndTime = `${req.body.data.reservation_date}T${req.body.data.reservation_time}:00.000Z`;
@@ -157,9 +142,7 @@ function openHours(req, res, next) {
 
 function closedOnTuesdays(req, res, next) {
   const date = new Date(req.body.data.reservation_date);
-  //console.log(date);
   const dayOfWeek = date.getDay();
-  //console.log(dayOfWeek);
 
   if (dayOfWeek === 1) {
     return next({
@@ -172,7 +155,6 @@ function closedOnTuesdays(req, res, next) {
 
 function isValidStatus(req, res, next) {
   const { status } = req.body.data;
-  //if (status !== "booked" || status !== "seated" || status !== "finished") {
   if (status === "unknown") {
     return next({
       status: 400,
@@ -195,13 +177,6 @@ function isFinished(req, res, next) {
 
 // ------------------ CRUD handlers ---------------------
 
-//const reservations = [];
-
-/**
- * List handler for reservation resources
- */
-
-// added req.query argument
 async function list(req, res) {
   try {
     let response = [];
@@ -213,21 +188,15 @@ async function list(req, res) {
       const { date } = req.query;
       response = await service.list(date);
     }
-    //if (!response) response = [];
     return res.json({ data: response });
   } catch (error) {
     console.log(error);
   }
-  // res.json({
-  //   data: reservationsByDate,
-  // });
 }
 
 function read(req, res) {
   res.json({ data: res.locals.reservation });
 }
-
-//async function read(req, res) {}
 
 async function create(req, res) {
   const newReservation = await service.create(req.body.data);
@@ -237,15 +206,7 @@ async function create(req, res) {
   });
 }
 
-// async function updateStatus(req, res) {}
-
-// async function destroy(req, res) {}
-
 async function update(req, res) {
-  // console.log(res.locals.reservation);
-  // const updated = await service.update(res.locals.reservation);
-  // console.log(updated);
-  // res.json({ data: res.locals.reservation });
   const response = await service.update(req.body.data);
   res.json({ data: response });
 }

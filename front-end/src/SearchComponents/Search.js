@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-//import { useHistory } from "react-router";
 import ErrorAlert from "../layout/ErrorAlert";
 import { listReservations } from "../utils/api";
-//import Dashboard from "../dashboard/Dashboard";
 import ReservationList from "../ReservationComponents/ReservationList";
 
 function Search() {
-  //const history = useHistory();
   const [error, setError] = useState(null);
 
   const [reservations, setReservations] = useState([]);
@@ -33,43 +30,27 @@ function Search() {
     searchByNumber(mobile_number);
   }
 
-  //   const reservationTable = reservations.map((reservation) => {
-  //       return (
-  //           <ReservationList
-  //           reservations={reservation}
-  //       )
-  //   })
-
   return (
     <div>
       <h1 className="ml-5 mt-1 mb-5">Find A Reservation</h1>
       <ErrorAlert error={error} />
       <form onSubmit={submitHandler} className="ml-5 mb-5">
-        <div>
-          <label htmlFor="mobile_number" className="ml-3 mt-1">
-            Phone number:
-          </label>
-          <div className="col-sm-12 col-lg-5">
-            <input
-              className="form-control"
-              name="mobile_number"
-              type="tel"
-              id="search"
-              //value=?
-              onChange={changeHandler}
-              placeholder="Enter a customer's phone number"
-            />
-          </div>
+        <label htmlFor="mobile_number" className="ml-3 mt-1">
+          Phone number:
+        </label>
+        <div className="col-sm-12 col-lg-5">
+          <input
+            className="form-control"
+            name="mobile_number"
+            type="tel"
+            id="search"
+            onChange={changeHandler}
+            placeholder="Enter a customer's phone number"
+          />
         </div>
-        <div>
-          <button
-            type="submit"
-            className="btn btn-primary ml-3 mt-2"
-            //onClick={cancelHandler}
-          >
-            Find
-          </button>
-        </div>
+        <button type="submit" className="btn btn-primary ml-3 mt-2">
+          Find
+        </button>
       </form>
       {reservations.length ? (
         <ReservationList reservations={reservations} />
