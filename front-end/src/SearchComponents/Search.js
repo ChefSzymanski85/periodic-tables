@@ -32,7 +32,7 @@ function Search() {
 
   return (
     <div>
-      <h1 className="ml-5 mt-1 mb-5">Find A Reservation</h1>
+      <h1 className="ml-5 mt-1 mb-5">Find A Reservation.</h1>
       <ErrorAlert error={error} />
       <form onSubmit={submitHandler} className="ml-5 mb-5">
         <label htmlFor="mobile_number" className="ml-3 mt-1">
