@@ -1,6 +1,6 @@
-# Final Capstone Project: Periodic Tables Restaurant Reservation System
+# Periodic Tables Restaurant Reservation System
 
-Welcome to Periodic Tables, a restaurant reservation system. The software is used only by restaurant personnel when a 
+Welcome to Periodic Tables, a restaurant reservation system. This software is used only by restaurant personnel when a 
 guest calls to request a reservation. Simply type in the guest's information in our easy to use form, and you will have 
 an easy way to keep track of all of your reservations. Not only that, but you can even use it to seat guests at a table!
 
