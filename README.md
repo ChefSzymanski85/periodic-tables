@@ -9,7 +9,7 @@ an easy way to keep track of all of your reservations. Not only that, but you ca
 
 ## Features
 - **Dashboard**: Displays all of the reservations for the day, all of the tables in the restaurant, and whether or not 
-- the reservations have been seated
+the reservations have been seated
 - **Create reservation**: Store a guest's reservation info
 - **Create table**: Allows the user to create the restaurant's tables with a table name (or number) and size
 - **Seat reservation**: A button that allows the user to seat a reservation at a table of their choice
