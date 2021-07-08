@@ -62,8 +62,7 @@ Would also like to add table icons to each table to display the size of the tabl
 
 ## Getting started
 ### Use the app
-The app is fully functional and ready to be used and enjoyed. 
-[Periodic Tables](https://periodic-tables-mark-client.herokuapp.com/)
+The app is fully functional and ready to be used and enjoyed here: [Periodic Tables](https://periodic-tables-mark-client.herokuapp.com/)
 
 ### Installation
 If you would like to run the repo locally, follow these steps:
@@ -71,7 +70,7 @@ If you would like to run the repo locally, follow these steps:
 2. Run `cp ./back-end/.env.sample ./back-end/.env`.
 3. Update the `./back-end/.env` file with the connection URL's to your ElephantSQL database instance.
 4. Run `cp ./front-end/.env.sample ./front-end/.env`.
-5. You should not need to make changes to the `./front-end/.env` file unless you want to connect to a backend at a 
-location other than `http://localhost:5000`.
+5. You should not need to make changes to the `./front-end/.env` file unless you want to connect to a backend 
+at a location other than `http://localhost:5000`.
 6. Run `npm install` to install project dependencies.
 7. Run `npm run start:dev` to start your server in development mode.
