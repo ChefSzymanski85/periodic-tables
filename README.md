@@ -6,7 +6,6 @@ an easy way to keep track of all of your reservations. Not only that, but you ca
 
 
 ![Dashboard](/new_reservation.png "Dashboard")
-
 ## Features
 - **Dashboard**: Displays all of the reservations for the day, all of the tables in the restaurant, and whether or not 
 the reservations have been seated
@@ -18,7 +17,6 @@ the reservations have been seated
 
 
 ![Dashboard](/dashboard.png "Dashboard")
-
 ## Technology
 - JavaScript
 - React
